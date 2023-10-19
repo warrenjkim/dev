@@ -1,0 +1,135 @@
+\documentclass{report}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\newcommand{\textib}[1]{\textit{\textbf{{#1}}}}
+\newcommand{\code}[1]{\texttt{{#1}}}
+\newcommand{\note}[1]{\textib{Note:} \textit{{#1}}}
+
+\lstset{
+    basicstyle=\ttfamily,              % the size of the fonts used for the code
+    breaklines=true,                   % sets automatic line breaking
+    tabsize=2,                         % sets default tab size to 4 spaces
+    showstringspaces=false,            % instructs LaTeX not to put in spaces at visible spaces
+    frame=single,                      % adds a frame around the code
+}
+
+\begin{document}
+\tableofcontents
+\newpage
+\chapter{Preface}
+These are my notes for Rust. 
+
+\chapter{Variables}
+\section{Mutability}
+Variables by default are \textit{immutable} in Rust. That is, we have to specify that we want a 
+certain variable to be mutable.
+\begin{lstlisting}
+    let var_name = value
+    let mut var_name = value
+\end{lstlisting}
+A couple notes:
+
+\begin{enumerate}[label=\textit{(\roman*)}]
+    \item Trying to mutate immutable variables (e.g. \code{let x...}) will result in an
+        \textit{immutability error} in the compiler.
+    \item Adding \code{mut} to a variable name (e.g. \code{let mut x...}) indicates that
+        the variable is indeed mutable.
+\end{enumerate}
+
+\section{Constants}
+Constants are (by definition) \textit{immutable}, and can \textib{not} be made mutable using 
+\code{mut}. They are declared as follows:
+\begin{lstlisting}
+    const CONST_NAME: u32 = 60 * 60 * 3;
+\end{lstlisting}
+Note that constants require the type \textit{and} value to be specified. Additionally, constants
+can only be set to constant expressions; i.e. you \textib{cannot} set a constant to something 
+computed at runtime.
+\newline
+\newline
+\note{Naming convention is to use uppercase snake case.}
+
+
+\section{Shadowing}
+You can \textit{shadow} variables in Rust. Consider the following function in \code{main.rs}:
+
+\begin{lstlisting}
+1  fn main() {
+2    let x = 5;
+3    let x = x + 1;
+4
+5    {
+6      let x = x * 2;
+7      println!("x in the inner scope is: {x}");
+8    }
+9    println!("the value of x is: {x}");
+10 }
+\end{lstlisting}
+\begin{enumerate}[label=,leftmargin=0pt]
+    \item At (2), \code{x = 5}.
+    \item At (3), \code{x = 5 + 1 = 6}.
+    \item At (6), \code{x = 6 * 2 = 12}.
+    \item At (7), we print the \textib{shadowed} \code{x} (the \code{x} in the \textib{inner} scope
+        [\code{x = 12}]).
+    \item At (9), we print the \code{x} as normal.
+\end{enumerate}
+
+
+\subsection{\texttt{mut} v. Shadowing with \texttt{let}} 
+We can also shadow variables using \code{let}. The following is perfectly legal:
+\begin{lstlisting}
+  let spaces = "     ";
+  let spaces = spaces.len();
+\end{lstlisting}
+Where the first and second \code{spaces} is a string and number type respectively.
+\newline
+\newline
+However, doing the same using \code{mut} will produce a mismatched types error in the compiler:
+\begin{lstlisting}
+  let mut spaces = "     ";
+  spaces = spaces.len();
+\end{lstlisting}
+This is because we are not allowed to mutate a variable's type.
+
+
+\subsection{Summary}
+Rust variables are \textib{immutable} by default and must be specified (using \code{mut}) if they
+are to be mutated. 
+\newline
+\newline
+Constants in Rust \textib{require} a type annotation and can only be assigned to
+\textib{constant} expressions (e.g. \code{10 * 10}). 
+\newline
+\newline
+Rust has shadowing with the expected behavior. However, a common thing to do in Rust (apparently)
+is to shadow a variable via \code{let}. Note that we \textib{cannot} do this with variables 
+specified with \code{mut}.
+
+
+\chapter{Learning Journal}
+
+\section{10/18/23}
+\subsection*{Brief}
+\begin{enumerate}[label=\textit{(\roman*)}]
+    \item Started Rust notes.
+    \item Currently on \texttt{3.2 Data Types}.
+    \item Learned about how Rust variables worked.
+    \item Got PTSD from CS131 about how shadowing works.
+\end{enumerate}
+
+\subsection*{Major Takeaways}
+\begin{enumerate}[label=\textit{(\roman*)}]
+    \item Rust variables are immutable by default, and must be specified that they are mutable.
+    \item Constants require a type annotation.
+    \item Rust has shadowing with expected behavior.
+    \item Rust uses shadowing a lot via \code{let}.
+    \item Variables with \code{mut} cannot be shadowed with \textit{(iv)}.
+\end{enumerate}
+
+
+
+\end{document}
