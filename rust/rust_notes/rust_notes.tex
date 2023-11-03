@@ -4,6 +4,7 @@
 \usepackage{amssymb}
 \usepackage{listings}
 \usepackage{hyperref}
+\usepackage{booktabs}
 
 \newcommand{\textib}[1]{\textit{\textbf{{#1}}}}
 \newcommand{\code}[1]{\texttt{{#1}}}
@@ -108,6 +109,83 @@ Constants in Rust \textib{require} a type annotation and can only be assigned to
 Rust has shadowing with the expected behavior. However, a common thing to do in Rust (apparently)
 is to shadow a variable via \code{let}. Note that we \textib{cannot} do this with variables 
 specified with \code{mut}.
+
+
+
+
+
+\section{Data Types}
+Rust is \textib{statically typed}; i.e. we know the types of \textit{all} variables at 
+\textib{compile time}. There are two data type subsets: \textib{scalar} and \textib{compound}. We
+can explicitly define the type of a variable as such:
+\begin{lstlisting}
+let guess: u32 = "42".parse().expect("Not a number!");
+\end{lstlisting}
+The \texttt{: u32} explicitly defines that \texttt{guess}  is a numberic type.
+
+
+\subsection{Scalar Types}
+A \textib{scalar} represents a \textit{single} value. Rust has
+\begin{enumerate}[label=\textit{(\roman*)}]
+    \item integer
+    \item floating-point
+    \item booleans
+    \item character
+\end{enumerate}
+
+\subsubsection{Integers}
+An \textit{integer} is a number without a fractional component (i.e. $\mathbb{Z}$). We can specify
+the \textit{length} as well as whether or not it is \textit{signed} or \textit{unsigned}. The table
+is as follows:
+\begin{center}
+\centering
+\begin{tabular}{ccc}
+\toprule
+Length & Signed & Unsigned \\
+\midrule
+8-bit & \texttt{i8} & \texttt{u8} \\
+16-bit & \texttt{i16} & \texttt{u16} \\
+32-bit & \texttt{i32} & \texttt{u32} \\
+64-bit & \texttt{i64} & \texttt{u64} \\
+128-bit & \texttt{i128} & \texttt{u128} \\
+arch & \texttt{isize} & \texttt{usize} \\
+\bottomrule
+\end{tabular}
+\end{center}
+Note that signed numbers are stored using \textit{two's complement}. The \texttt{arch} length depends
+on the \textit{architecture} of your computer.
+\newline
+\newline
+We can write integer literals in any of the following ways:
+\newline
+\begin{center}
+\begin{tabular}{cc}
+\toprule
+Length & Signed \\
+\midrule
+Decimal & \texttt{1\_000} \\
+Hex & \texttt{0xff} \\
+Octal & \texttt{0o77} \\
+Binary & \texttt{0b1111\_0000} \\
+Byte (\texttt{u8} only!) & \texttt{b'A'} \\
+\bottomrule
+\end{tabular}
+\end{center}
+Note here that the \texttt{\_} is just a \textit{visual} separator for readability.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \chapter{Learning Journal}
